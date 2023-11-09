@@ -11,8 +11,6 @@ function DoList() {
 
     const [mission, setMission] = useState('');
     const [listMission, setListMission] = useState([]);
-    const [listMissionDone, setListMissionDone] = useState([]);
-
     const handleAddMission = () => {
         if (mission) {
             const updatedList = [...listMission, mission];
@@ -33,18 +31,16 @@ function DoList() {
 
     const handleCompleteMission = (index) => {
         const result = listMission.filter((_, i) => i === index);
-        const updatedList = [...listMissionDone, result];
-        setListMissionDone((prev) => [...prev, result]);
+        const listDone = JSON.parse(localStorage.getItem('listMissionDone'));
+        const updatedList = [...listDone, result];
         localStorage.setItem('listMissionDone', JSON.stringify(updatedList));
-        contextMission.updateNow();
         handleDeleteMission(index);
+        contextMission.updateNow();
     };
 
     useEffect(() => {
         const result = localStorage.getItem('listMission');
         setListMission(JSON.parse(result) || []);
-        const listDone = localStorage.getItem('listMissionDone');
-        setListMissionDone(JSON.parse(listDone) || []);
     }, [mission]);
 
     return (

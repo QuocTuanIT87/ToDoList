@@ -3,7 +3,7 @@ import Confetti from 'react-confetti';
 const Fireworks = () => {
     return (
         <div>
-            <Confetti width={'1400px'} />
+            <Confetti />
         </div>
     );
 };

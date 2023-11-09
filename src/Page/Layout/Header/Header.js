@@ -51,7 +51,7 @@ function Header() {
                     </div>
                     <button className={cx('btn-draw')}>Draw</button>
                     <button className={cx('btn-draw')} onClick={handleResetGift}>
-                        Reset <i class="fa-solid fa-power-off"></i>
+                        Reset <i className="fa-solid fa-power-off"></i>
                     </button>
                 </div>
             </div>
