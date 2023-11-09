@@ -1,0 +1,15 @@
+.content {
+    padding-top: 64px;
+}
+
+.inner-content {
+    display: flex;
+    .cover-dolist {
+        flex: 1;
+        display: flex;
+    }
+    .cover-donetlist {
+        flex: 1;
+        display: flex;
+    }
+}

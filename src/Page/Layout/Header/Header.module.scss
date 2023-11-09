@@ -1,0 +1,54 @@
+.wrapper {
+    padding: 8px;
+    background-color: #ec1f55;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    min-height: 48px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.cover-gift {
+    display: flex;
+    align-items: center;
+
+    .label-gift {
+        margin-right: 10px;
+    }
+
+    .value-gift {
+        margin-right: 32px;
+        cursor: pointer;
+        i {
+            color: yellow;
+        }
+    }
+
+    .btn-draw {
+        border: 1px solid #ccc;
+        padding: 8px 16px;
+        font-family: Inter;
+        font-weight: bold;
+        font-size: 18px;
+        border-radius: 8px;
+        color: #dc4c3e;
+        transition: 0.2s ease-in-out;
+        margin-right: 10px;
+
+        &:hover {
+            cursor: pointer;
+            opacity: 0.9;
+            transform: scale(1.04);
+        }
+    }
+}

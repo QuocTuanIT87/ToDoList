@@ -1,0 +1,42 @@
+.wrapper {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+
+    p {
+        font-size: 18px;
+        font-family: Inter-bold;
+        margin-bottom: 24px;
+    }
+}
+
+.cover-btn {
+    text-align: center;
+
+    .btn {
+        padding: 6px 16px;
+        border: none;
+        border-radius: 4px;
+        font-family: Inter-Semibold;
+        transition: 0.2s ease-in-out;
+
+        &:hover {
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+    }
+
+    .cancel {
+        margin-right: 46px;
+        color: red;
+    }
+}
