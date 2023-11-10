@@ -27,8 +27,8 @@ function DoneList() {
         contextMission.updateNow();
         setFire(true);
         setIsDisable(true);
-        await refAudio1.current.play();
         await refAudio.current.play();
+        await refAudio1.current.play();
         setTimeout(() => {
             setIsDisable(false);
         }, 1000);
@@ -50,14 +50,14 @@ function DoneList() {
     return (
         <div className={cx('wrapper')}>
             {fire && <Fire />}
-            <audio ref={refAudio1} style={{ display: ' none' }}>
-                <source src={sound1} />
-            </audio>
-            <audio ref={refAudio} style={{ display: ' none' }}>
-                <source src={sound} />
-            </audio>
-
             <div className={cx('container')}>
+                <audio ref={refAudio1} style={{ display: ' none' }}>
+                    <source src={sound1} />
+                </audio>
+                <audio ref={refAudio} style={{ display: ' none' }}>
+                    <source src={sound} />
+                </audio>
+
                 <div className={cx('cover-input')}></div>
                 <h2 style={{ fontFamily: 'Inter-Bold' }}>
                     Mission completed <i className="fa-brands fa-gratipay"></i>

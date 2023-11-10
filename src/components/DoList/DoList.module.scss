@@ -77,9 +77,10 @@
     border-radius: 8px;
 
     .index-mission {
-        margin-right: 4px;
+        margin-right: 10px;
         font-family: Inter-bold;
-        color: var(--primary-color);
+        color: var(--color-text);
+        font-size: 20px;
     }
 
     .mission-name {

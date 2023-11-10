@@ -5,6 +5,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 2;
 }
 
 .container {
@@ -16,6 +17,7 @@
         font-size: 18px;
         font-family: Inter-bold;
         margin-bottom: 24px;
+        color: #000;
     }
 }
 

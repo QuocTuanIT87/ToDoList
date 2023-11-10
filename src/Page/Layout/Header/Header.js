@@ -13,7 +13,7 @@ function Header() {
     const [today, setToday] = useState();
     const [bonus, setBonuses] = useState();
 
-    const [showModal, setShowModal] = useState(false);
+    const [dark, setDark] = useState(false);
 
     const handleResetGift = () => {
         contextMission.setReset(true);
@@ -23,6 +23,17 @@ function Header() {
         const theme = e.target.innerText;
         document.querySelector('body').setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
+    };
+
+    const handelDarkMode = () => {
+        setDark(!dark);
+        if (!dark) {
+            document.querySelector('body').setAttribute('data-mode', 'darkmode');
+            localStorage.setItem('mode', 'darkmode');
+        } else {
+            document.querySelector('body').setAttribute('data-mode', 'lightmode');
+            localStorage.setItem('mode', 'lightmode');
+        }
     };
 
     useEffect(() => {
@@ -36,7 +47,16 @@ function Header() {
         }, 1000);
 
         const theme = localStorage.getItem('theme');
+        const mode = localStorage.getItem('mode');
         document.querySelector('body').setAttribute('data-theme', theme || 'default');
+        document.querySelector('body').setAttribute('data-mode', mode || 'lightmode');
+
+        if (mode === 'lightmode') {
+            setDark(false);
+        } else {
+            setDark(true);
+        }
+
         return () => {
             clearInterval(intervalId);
         };
@@ -64,39 +84,42 @@ function Header() {
                     </div>
                     <button className={cx('btn-draw')}>Draw</button>
 
-                    <button className={cx('btn-draw')} onClick={() => setShowModal(!showModal)}>
+                    <button className={cx('btn-draw')}>
                         Theme <i className="fa-solid fa-palette"></i>
-                        {showModal && (
-                            <div className={cx('modal-theme')}>
-                                <div className={cx('inner-modal')}>
-                                    <div className={cx('theme-item', 'default')} onClick={handleSetTheme}>
-                                        default
-                                    </div>
-                                    <div className={cx('theme-item', 'pink')} onClick={handleSetTheme}>
-                                        pink
-                                    </div>
-                                    <div className={cx('theme-item', 'black')} onClick={handleSetTheme}>
-                                        black
-                                    </div>
-                                    <div className={cx('theme-item', 'orange')} onClick={handleSetTheme}>
-                                        orange
-                                    </div>
-                                    <div className={cx('theme-item', 'blue')} onClick={handleSetTheme}>
-                                        blue
-                                    </div>
-                                    <div className={cx('theme-item', 'green')} onClick={handleSetTheme}>
-                                        green
-                                    </div>
-                                    <div className={cx('theme-item', 'gray')} onClick={handleSetTheme}>
-                                        gray
-                                    </div>
+                        <div className={cx('modal-theme')}>
+                            <div className={cx('inner-modal')}>
+                                <div className={cx('theme-item', 'default')} onClick={handleSetTheme}>
+                                    default
+                                </div>
+                                <div className={cx('theme-item', 'pink')} onClick={handleSetTheme}>
+                                    pink
+                                </div>
+                                <div className={cx('theme-item', 'black')} onClick={handleSetTheme}>
+                                    black
+                                </div>
+                                <div className={cx('theme-item', 'orange')} onClick={handleSetTheme}>
+                                    orange
+                                </div>
+                                <div className={cx('theme-item', 'blue')} onClick={handleSetTheme}>
+                                    blue
+                                </div>
+                                <div className={cx('theme-item', 'green')} onClick={handleSetTheme}>
+                                    green
+                                </div>
+                                <div className={cx('theme-item', 'gray')} onClick={handleSetTheme}>
+                                    gray
                                 </div>
                             </div>
-                        )}
+                        </div>
                     </button>
 
                     <button className={cx('btn-draw')} onClick={handleResetGift}>
                         Reset <i className="fa-solid fa-power-off"></i>
+                    </button>
+
+                    <button className={cx('mode-dark')} onClick={handelDarkMode}>
+                        {!dark && <i className="fa-solid fa-moon"></i>}
+                        {dark && <i className="fa-regular fa-sun"></i>}
                     </button>
                 </div>
             </div>
