@@ -51,7 +51,7 @@ function Header() {
         document.querySelector('body').setAttribute('data-theme', theme || 'default');
         document.querySelector('body').setAttribute('data-mode', mode || 'lightmode');
 
-        if (mode === 'lightmode') {
+        if (mode === 'lightmode' || !mode) {
             setDark(false);
         } else {
             setDark(true);
