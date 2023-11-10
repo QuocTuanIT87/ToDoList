@@ -1,5 +1,6 @@
 {
     "name": "todolist",
+    "homepage": "http://todolist87.com",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
