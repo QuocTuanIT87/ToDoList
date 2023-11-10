@@ -16,7 +16,7 @@
 
         &:hover {
             cursor: pointer;
-            color: #ec1f55;
+            color: var(--primary-color);
         }
     }
 }
@@ -25,13 +25,13 @@
     width: 100%;
     display: flex;
     .form-input-mission {
-        border: 2px solid #ec1f55;
+        border: 2px solid var(--primary-color);
         border-radius: 4px;
         outline: none;
         padding: 8px 100px 8px 8px;
         flex: 1;
         font-size: 18px;
-        color: #ec1f55;
+        color: var(--primary-color);
         font-family: Inter-Bold;
 
         &::placeholder {
@@ -46,8 +46,8 @@
         font-size: 24px;
         border: none;
         border-radius: 8px;
-        border: 3px solid #ec1f55;
-        color: #ec1f55;
+        border: 3px solid var(--primary-color);
+        color: var(--primary-color);
         background-color: #fff;
         .icon-plus {
             transition: 0.2s ease-in-out;
@@ -72,7 +72,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 18px;
-    border: 1px solid #ec1f55;
+    border: 1px solid var(--primary-color);
     padding: 0 8px;
     border-radius: 8px;
     .mission-name {

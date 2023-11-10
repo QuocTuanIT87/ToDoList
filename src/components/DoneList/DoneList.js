@@ -60,7 +60,7 @@ function DoneList() {
             <div className={cx('container')}>
                 <div className={cx('cover-input')}></div>
                 <h2 style={{ fontFamily: 'Inter-Bold' }}>
-                    Mission complete <i className="fa-brands fa-gratipay"></i>
+                    Mission completed <i className="fa-brands fa-gratipay"></i>
                 </h2>
 
                 <div className={cx('list-missions')}>

@@ -1,11 +1,12 @@
 .wrapper {
     padding: 8px;
-    background-color: #ec1f55;
+    background-color: var(--primary-color);
     position: fixed;
     top: 0;
     right: 0;
     left: 0;
     z-index: 1;
+    font-family: Inter-bold;
 }
 
 .container {
@@ -16,6 +17,11 @@
     color: #fff;
     font-weight: bold;
     font-size: 24px;
+
+    .logo {
+        height: 58px;
+        cursor: pointer;
+    }
 }
 
 .cover-gift {
@@ -37,18 +43,75 @@
     .btn-draw {
         border: 1px solid #ccc;
         padding: 8px 16px;
-        font-family: Inter;
-        font-weight: bold;
         font-size: 18px;
         border-radius: 8px;
-        color: #dc4c3e;
+        color: var(--primary-color);
         transition: 0.2s ease-in-out;
         margin-right: 10px;
+        font-family: Inter-bold;
+        position: relative;
 
         &:hover {
             cursor: pointer;
             opacity: 0.9;
             transform: scale(1.04);
+        }
+    }
+}
+
+.modal-theme {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    min-width: 100%;
+    border-radius: 8px;
+    .inner-modal {
+        padding: 8px;
+        .theme-item {
+            padding: 4px 8px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+
+            &:hover {
+                transform: scale(1.04);
+            }
+        }
+
+        .default {
+            background-color: #ec1f55;
+            color: #ec1f55;
+        }
+
+        .pink {
+            background-color: pink;
+            color: pink;
+        }
+
+        .black {
+            background-color: black;
+            color: black;
+        }
+
+        .orange {
+            background-color: orange;
+            color: orange;
+        }
+
+        .blue {
+            background-color: rgb(181, 181, 242);
+            color: rgb(181, 181, 242);
+        }
+
+        .green {
+            background-color: rgb(62, 227, 62);
+            color: rgb(62, 227, 62);
+        }
+
+        .gray {
+            background-color: gray;
+            color: gray;
         }
     }
 }

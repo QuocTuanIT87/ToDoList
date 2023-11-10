@@ -8,6 +8,34 @@
     --font-family: 'Inter', sans-serif;
 }
 
+[data-theme='default'] {
+    --primary-color: #ec1f55;
+}
+
+[data-theme='pink'] {
+    --primary-color: pink;
+}
+
+[data-theme='black'] {
+    --primary-color: black;
+}
+
+[data-theme='orange'] {
+    --primary-color: orange;
+}
+
+[data-theme='blue'] {
+    --primary-color: rgb(181, 181, 242);
+}
+
+[data-theme='green'] {
+    --primary-color: rgb(62, 227, 62);
+}
+
+[data-theme='gray'] {
+    --primary-color: gray;
+}
+
 body {
     font-family: var(--font-family);
 }
