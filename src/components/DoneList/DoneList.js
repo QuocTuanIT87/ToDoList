@@ -36,7 +36,7 @@ function DoneList() {
 
     useEffect(() => {
         const result = localStorage.getItem('listMissionDone');
-        setListMissionDone(JSON.parse(result));
+        setListMissionDone(JSON.parse(result) || []);
     }, [contextMission.update]);
 
     useEffect(() => {

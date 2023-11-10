@@ -31,7 +31,7 @@ function DoList() {
 
     const handleCompleteMission = (index) => {
         const result = listMission.filter((_, i) => i === index);
-        const listDone = JSON.parse(localStorage.getItem('listMissionDone'));
+        const listDone = JSON.parse(localStorage.getItem('listMissionDone')) || [];
         const updatedList = [...listDone, result];
         localStorage.setItem('listMissionDone', JSON.stringify(updatedList));
         handleDeleteMission(index);
