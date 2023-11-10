@@ -75,6 +75,13 @@
     border: 1px solid var(--primary-color);
     padding: 0 8px;
     border-radius: 8px;
+
+    .index-mission {
+        margin-right: 4px;
+        font-family: Inter-bold;
+        color: var(--primary-color);
+    }
+
     .mission-name {
         flex: 1;
         font-family: Inter-Bold;

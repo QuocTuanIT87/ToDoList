@@ -76,6 +76,7 @@ function DoList() {
                 <div className={cx('list-missions')}>
                     {listMission?.map((mission, index) => (
                         <div className={cx('mission')} key={index}>
+                            <span className={cx('index-mission')}>{index + 1}</span>
                             <i className="fa-solid fa-circle" style={{ marginRight: '8px', fontSize: '8px' }}></i>
                             <span className={cx('mission-name')}>{mission}</span>
                             <div className={cx('control-mission')}>
