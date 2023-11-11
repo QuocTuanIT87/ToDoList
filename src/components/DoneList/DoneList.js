@@ -21,8 +21,13 @@ function DoneList() {
     const [isDisable, setIsDisable] = useState(false);
 
     const handleTakeGift = async (index) => {
+        const day = new Date();
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const today = `on ${daysOfWeek[day.getDay()]} ${day.getDate()} - ${day.getMonth() + 1} - ${day.getFullYear()} `;
+
         const updatedList = listMissionDone.filter((_, i) => i !== index);
-        const aCompleteMission = listMissionDone[index];
+        const aCompleteMission = listMissionDone[index] + ' ' + today;
+        console.log('a: ', aCompleteMission);
         setAllMission((prev) => [...prev, aCompleteMission]);
         setListMissionDone(updatedList);
         localStorage.setItem('listMissionDone', JSON.stringify(updatedList));
