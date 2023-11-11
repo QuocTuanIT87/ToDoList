@@ -2,12 +2,14 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import styles from './DoList.module.scss';
 import classNames from 'classnames/bind';
 import { missionContext } from '../MissionProvider/MissionProvider';
+import sound from '../../assets/audio/sound.mp3';
 
 const cx = classNames.bind(styles);
 
 function DoList() {
     const myRef = useRef();
     const contextMission = useContext(missionContext);
+    const refAudio = useRef();
 
     const [mission, setMission] = useState('');
     const [listMission, setListMission] = useState([]);
@@ -36,6 +38,7 @@ function DoList() {
         localStorage.setItem('listMissionDone', JSON.stringify(updatedList));
         handleDeleteMission(index);
         contextMission.updateNow();
+        refAudio.current.play();
     };
 
     useEffect(() => {
@@ -45,6 +48,9 @@ function DoList() {
 
     return (
         <div className={cx('wrapper')}>
+            <audio ref={refAudio} style={{ display: ' none' }}>
+                <source src={sound} />
+            </audio>
             <div className={cx('container')}>
                 <button className={cx('btn-back')}>
                     <i className="fa-solid fa-rotate-left"></i>
