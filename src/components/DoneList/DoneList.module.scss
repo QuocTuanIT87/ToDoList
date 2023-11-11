@@ -54,3 +54,21 @@
         color: red;
     }
 }
+
+.all-completed {
+    padding: 6px;
+    outline: none;
+    background-color: transparent;
+    border-radius: 50%;
+    font-size: 18px;
+    transition: 0.2s ease-in-out;
+    font-family: Inter-bold;
+    border: 4px solid var(--primary-color);
+    color: var(--color-text);
+    &:hover {
+        cursor: pointer;
+        background-color: var(--primary-color);
+        color: #fff;
+        border-color: var(--color-text);
+    }
+}

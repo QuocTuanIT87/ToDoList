@@ -5,6 +5,7 @@ import { missionContext } from '../MissionProvider/MissionProvider';
 import Fire from '../Fire';
 import sound from '../../assets/audio/sound.mp3';
 import sound1 from '../../assets/audio/sound1.mp3';
+import AllMission from '../AllMission';
 
 const cx = classNames.bind(styles);
 
@@ -15,11 +16,14 @@ function DoneList() {
     const refAudio1 = useRef();
 
     const [listMissionDone, setListMissionDone] = useState([]);
+    const [allMission, setAllMission] = useState([]);
     const [fire, setFire] = useState(false);
     const [isDisable, setIsDisable] = useState(false);
 
     const handleTakeGift = async (index) => {
         const updatedList = listMissionDone.filter((_, i) => i !== index);
+        const aCompleteMission = listMissionDone[index];
+        setAllMission((prev) => [...prev, aCompleteMission]);
         setListMissionDone(updatedList);
         localStorage.setItem('listMissionDone', JSON.stringify(updatedList));
         const result = JSON.parse(localStorage.getItem('bonus'));
@@ -35,8 +39,14 @@ function DoneList() {
     };
 
     useEffect(() => {
+        localStorage.setItem('allMission', JSON.stringify(allMission));
+    }, [allMission]);
+
+    useEffect(() => {
         const result = localStorage.getItem('listMissionDone');
         setListMissionDone(JSON.parse(result) || []);
+        const allMission = localStorage.getItem('allMission');
+        setAllMission(JSON.parse(allMission) || []);
     }, [contextMission.update]);
 
     useEffect(() => {
@@ -50,6 +60,7 @@ function DoneList() {
     return (
         <div className={cx('wrapper')}>
             {fire && <Fire />}
+            {contextMission.all && <AllMission />}
             <div className={cx('container')}>
                 <audio ref={refAudio1} style={{ display: ' none' }}>
                     <source src={sound1} />
@@ -59,6 +70,11 @@ function DoneList() {
                 </audio>
 
                 <div className={cx('cover-input')}></div>
+                <div>
+                    <button className={cx('all-completed')} onClick={() => contextMission.setAll(true)}>
+                        All
+                    </button>
+                </div>
                 <h2 style={{ fontFamily: 'Inter-Bold' }}>
                     Mission completed <i className="fa-brands fa-gratipay"></i>
                 </h2>

@@ -11,36 +11,57 @@
 [data-theme='default'] {
     --primary-color: #ec1f55;
     --color-text: #ec1f55;
+    --background-modal: #fff;
+    --color-modal: var(--primary-color);
+    --color-boder: var(--primary-color);
 }
 
 [data-theme='pink'] {
     --primary-color: pink;
     --color-text: pink;
+    --background-modal: #fff;
+    --color-modal: var(--primary-color);
+    --color-boder: var(--primary-color);
 }
 
 [data-theme='black'] {
     --primary-color: #242526;
     --color-text: #242526;
+    --background-modal: #fff;
+    --color-modal: var(--primary-color);
+    --color-boder: var(--primary-color);
 }
 
 [data-theme='orange'] {
     --primary-color: orange;
     --color-text: orange;
+    --background-modal: #fff;
+    --color-modal: var(--primary-color);
+    --color-boder: var(--primary-color);
 }
 
 [data-theme='blue'] {
     --primary-color: rgb(181, 181, 242);
     --color-text: rgb(181, 181, 242);
+    --background-modal: #fff;
+    --color-modal: var(--primary-color);
+    --color-boder: var(--primary-color);
 }
 
 [data-theme='green'] {
     --primary-color: rgb(62, 227, 62);
     --color-text: rgb(62, 227, 62);
+    --background-modal: #fff;
+    --color-modal: var(--primary-color);
+    --color-boder: var(--primary-color);
 }
 
 [data-theme='gray'] {
     --primary-color: gray;
     --color-text: gray;
+    --background-modal: #fff;
+    --color-modal: var(--primary-color);
+    --color-boder: var(--primary-color);
 }
 
 [data-mode='darkmode'] {
@@ -49,6 +70,9 @@
     background-image: none;
     transition: 0.4s ease-in-out;
     --color-text: #fff;
+    --background-modal: #292929;
+    --color-modal: #fff;
+    --color-boder: #736f6f;
 }
 
 [data-mode='lightmode'] {
