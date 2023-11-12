@@ -91,6 +91,9 @@ function DoneList() {
         // Dòng lệnh này để update giao diện
         contextMission.updateNow();
 
+        // set stack
+        contextMission.setStack((prev) => [...prev, 'gift']);
+
         // Tạo hiệu ứng chúc mừng khi nhận quà
         applyEffect();
     };

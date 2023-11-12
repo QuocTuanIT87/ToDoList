@@ -16,8 +16,6 @@ function DoList() {
     const [listMission, setListMission] = useState([]);
     const [isDisable, setIsDisable] = useState(false);
 
-    const [percentComplete, setPercentComplete] = useState();
-    const [percentTotal, setPercentTotal] = useState();
     const [progress, setProgress] = useState();
 
     // Đổi kiểu khi lấy dữ liệu từ localStorage
@@ -49,7 +47,6 @@ function DoList() {
             localSET('listMission', updatedList);
 
             const result = localGET('total');
-            setPercentTotal(result + 1);
             localSET('total', result + 1);
             handleTakeProgress();
 
@@ -73,8 +70,10 @@ function DoList() {
         setListMission(updatedList);
         localSET('listMission', updatedList);
 
+        // Set stack
+        contextMission.setStack((prev) => [...prev, 'delete']);
+
         const result = localGET('total');
-        setPercentTotal(result - 1);
         localSET('total', result - 1);
         handleTakeProgress();
     };
@@ -88,21 +87,34 @@ function DoList() {
 
     // Xử lý khi hoàn thành nhiệm vụ
     const handleCompleteMission = (index) => {
-        const result = listMission.filter((_, i) => i === index);
+        // Lấy ra nhiệm vụ vừa được đánh dấu hoàn thành rồi thêm vào danh sách đã hoàn thành
+        const result = listMission.filter((_, i) => i === index).toString();
         const listDone = localGET('listMissionDone') || [];
-        const updatedList = [...listDone, result];
-        localSET('listMissionDone', updatedList);
+        localSET('listMissionDone', [...listDone, result]);
 
+        // Đưa dữ liệu tạm thời vào stack để lưu trữ
+        contextMission.setItemDone((prev) => [...prev, result]);
+        contextMission.setIndexDone((prev) => [...prev, index]);
+
+        // Tăng số nhiệm vụ đã hoàn thành lên 1
         const completed = localGET('completed');
-
         localSET('completed', completed + 1);
-        setPercentComplete(completed + 1);
 
+        // Cập nhật lại danh sách nhiệm vụ bằng cách xóa nhiệm vụ vừa hoàn thành
         handleRemoveMission(index);
+        // Cập nhật thanh trạng thái hoàn thành
         handleTakeProgress();
 
+        // Set stack
+        contextMission.setStack((prev) => [...prev, 'completed']);
+
+        // Cập nhật lại giao diện
         contextMission.updateNow();
+
+        // Âm thanh khi người dùng ấn hoàn thành nhiệm vụ
         refAudio.current.play();
+
+        // Khi bấm hoàn thành sẽ hoãn 1s trước khi bấm hoàn thành nhiệm tiếp theo để âm thanh được chạy hết trong 1s (tránh tình trạng âm thanh bị delay)
         setIsDisable(true);
         setTimeout(() => {
             setIsDisable(false);
@@ -118,14 +130,59 @@ function DoList() {
 
     useEffect(() => {
         const total = localGET('total');
-        setPercentTotal(total || 0);
 
         const completed = localGET('completed');
-        setPercentComplete(completed || 0);
 
         setProgress(completed / total);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const deleteLastItem = (arr) => {
+        const updatedArr = arr.filter((_, index) => index !== arr.length - 1);
+        contextMission.setStack(updatedArr);
+    };
+
+    // Xử lý back hành động ấn hoàn thành nhiệm vụ
+    const handelBackCompleted = () => {
+        // Xóa phần tử cuối của danh sách đã hoàn thành
+        const listDone = localGET('listMissionDone') || [];
+        const updatedListDone = listDone.slice(0, -1);
+        localSET('listMissionDone', updatedListDone);
+
+        // Hoàn tác lại nhiệm vụ đã bị xóa do bấm nhầm hoàn thành
+        const itemDoneStack = contextMission.itemDone;
+        const result = localGET('listMission') || [];
+        const updatedList = [itemDoneStack[itemDoneStack.length - 1], ...result];
+        setListMission(updatedList);
+        localSET('listMission', updatedList);
+
+        // Xóa phần tử cuối mảng của listMission lưu trữ tạm thời tại state sau khi đã hoàn tác
+        contextMission.handleDelteLastItem();
+
+        // Giảm số nhiệm vụ đã hoàn thành xuống 1
+        const completed = localGET('completed');
+        localSET('completed', completed - 1);
+
+        // Cập nhật thanh trạng thái hoàn thành
+        handleTakeProgress();
+
+        // Cập nhật lại giao diện
+        contextMission.updateNow();
+    };
+
+    // Hoàn tác lại những hành động người dùng vừa làm (dùng Stack)
+    const handleBackAction = () => {
+        const stack = contextMission.stack;
+
+        if (stack[stack.length - 1] === 'completed') {
+            handelBackCompleted();
+            deleteLastItem(stack);
+        } else if (stack[stack.length - 1] === 'gift') {
+            deleteLastItem(stack);
+        } else if (stack[stack.length - 1] === 'delete') {
+            deleteLastItem(stack);
+        }
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -133,7 +190,7 @@ function DoList() {
                 <source src={sound} />
             </audio>
             <div className={cx('container')}>
-                <button className={cx('btn-back')}>
+                <button className={cx('btn-back')} onClick={handleBackAction}>
                     <i className="fa-solid fa-rotate-left"></i>
                 </button>
                 <h2 className={cx('title-do-list')} style={{ fontFamily: 'Inter-Bold' }}>
