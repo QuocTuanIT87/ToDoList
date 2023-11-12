@@ -48,18 +48,25 @@ function DoneList() {
         return today;
     };
 
-    // Tạo mảng mới bằng cách loại bỏ mission đã đã được nhận quà
+    // Tạo mảng mới bằng cách loại bỏ mission đã được nhận quà
     const handleDeleteMissionCompleted = (index) => {
         const updatedList = listMissionDone.filter((_, i) => i !== index);
         setListMissionDone(updatedList);
         localSET('listMissionDone', updatedList);
+
+        // Lưu mission đã nhận quà vào bộ nhớ tạm thời
+        contextMission.setItemGifted((prev) => [...prev, listMissionDone[index]]);
     };
 
-    // Mission nào đã được nhận quà sẽ được đưa vào listALLMISSIOn (mảng chứa tất cả các mission completed)
+    // Mission nào đã được nhận quà sẽ được đưa vào listALLMission (mảng chứa tất cả các mission completed)
     const updateAllMissionCompleted = (index) => {
         let allMission = [];
         const resutAllMission = localGET('allMission');
         const aCompleteMission = listMissionDone[index] + ' ' + getToday();
+
+        // Lưu trữ tạm thời nhiệm vụ đã completed mà nhận quà nhầm
+        contextMission.setAllMissionCompleted((prev) => [...prev, aCompleteMission]);
+
         allMission = resutAllMission || [];
         allMission.push(aCompleteMission);
         localSET('allMission', allMission);
@@ -84,8 +91,13 @@ function DoneList() {
 
     // Xử lý khi nhận quà
     const handleTakeGift = async (index) => {
+        // Xóa mission khi đã ấn nút nhận quà
         handleDeleteMissionCompleted(index);
+
+        // Cập nhật danh sách tất cả mission đã hoàn thành
         updateAllMissionCompleted(index);
+
+        // Tăng giá trị quà lên 1 đơn vị
         handleIncreaseBonus();
 
         // Dòng lệnh này để update giao diện

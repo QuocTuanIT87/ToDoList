@@ -21,7 +21,7 @@ function AllMission() {
                 <div className={cx('inner')}>
                     {listAll.length > 0 &&
                         listAll?.map((mission, index) => (
-                            <div className={cx('cover-mission')}>
+                            <div key={index} className={cx('cover-mission')}>
                                 <span>{`${index + 1}`}</span>
                                 <div>{mission}</div>
                             </div>

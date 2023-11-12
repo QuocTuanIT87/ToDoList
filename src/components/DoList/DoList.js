@@ -66,15 +66,21 @@ function DoList() {
 
     // Xóa mission khi không muốn làm mission đó nữa
     const handleDeleteMission = (index) => {
+        // Loại bỏ mission đó và cập nhật lại mảng mới
         const updatedList = listMission.filter((_, i) => i !== index);
         setListMission(updatedList);
         localSET('listMission', updatedList);
 
+        contextMission.setItemDeleted((prev) => [...prev, listMission[index]]);
+
         // Set stack
         contextMission.setStack((prev) => [...prev, 'delete']);
 
+        // Giảm total mission xuống 1 đơn vị
         const result = localGET('total');
         localSET('total', result - 1);
+
+        // Cập nhật lại thanh progress
         handleTakeProgress();
     };
 
@@ -94,7 +100,6 @@ function DoList() {
 
         // Đưa dữ liệu tạm thời vào stack để lưu trữ
         contextMission.setItemDone((prev) => [...prev, result]);
-        contextMission.setIndexDone((prev) => [...prev, index]);
 
         // Tăng số nhiệm vụ đã hoàn thành lên 1
         const completed = localGET('completed');
@@ -157,7 +162,7 @@ function DoList() {
         localSET('listMission', updatedList);
 
         // Xóa phần tử cuối mảng của listMission lưu trữ tạm thời tại state sau khi đã hoàn tác
-        contextMission.handleDelteLastItem();
+        contextMission.handleDeleteLastItem();
 
         // Giảm số nhiệm vụ đã hoàn thành xuống 1
         const completed = localGET('completed');
@@ -170,6 +175,46 @@ function DoList() {
         contextMission.updateNow();
     };
 
+    // Xử lý back delete (người dùng lỡ xóa)
+    const handleBackDelete = () => {
+        // Hoàn tác lại nhiệm vụ đã bị xóa do bấm nhầm nút xóa
+        const itemDeleteStack = contextMission.itemDeleted;
+        const result = localGET('listMission') || [];
+        const updatedList = [...result, itemDeleteStack[itemDeleteStack.length - 1]];
+        setListMission(updatedList);
+        localSET('listMission', updatedList);
+
+        // Tăng total mission lên 1 đơn vị
+        const total = localGET('total');
+        localSET('total', total + 1);
+
+        contextMission.handleDeleteLastItemDeleted();
+        // Cập nhật lại thanh progress
+        handleTakeProgress();
+    };
+
+    const handleBackGift = () => {
+        const itemGifted = contextMission.itemGifted;
+        const result = localGET('listMissionDone') || [];
+        const updatedList = [itemGifted[itemGifted.length - 1], ...result];
+        localSET('listMissionDone', updatedList);
+
+        // Giảm giá trị tiền thưởng xuống 1 đơn vị
+        const coin = localGET('bonus');
+        localSET('bonus', coin - 1);
+
+        // Cập nhật lại danh sách tất cả mission đã hoàn thành
+        const allMissonCompleted = contextMission.allMissonCompleted;
+        console.log('all:' + allMissonCompleted);
+        const allMission = localGET('allMission');
+        const newAllMission = allMission.filter((item) => item !== allMissonCompleted[allMissonCompleted.length - 1]);
+        localSET('allMission', newAllMission);
+
+        contextMission.handleDeleteLastItemGift();
+        contextMission.handleDeleteLastItemAllMissionDone();
+        contextMission.updateNow();
+    };
+
     // Hoàn tác lại những hành động người dùng vừa làm (dùng Stack)
     const handleBackAction = () => {
         const stack = contextMission.stack;
@@ -178,8 +223,10 @@ function DoList() {
             handelBackCompleted();
             deleteLastItem(stack);
         } else if (stack[stack.length - 1] === 'gift') {
+            handleBackGift();
             deleteLastItem(stack);
         } else if (stack[stack.length - 1] === 'delete') {
+            handleBackDelete();
             deleteLastItem(stack);
         }
     };
