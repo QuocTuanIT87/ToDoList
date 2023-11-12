@@ -16,24 +16,63 @@ function DoneList() {
     const refAudio1 = useRef();
 
     const [listMissionDone, setListMissionDone] = useState([]);
-    const [allMission, setAllMission] = useState([]);
     const [fire, setFire] = useState(false);
     const [isDisable, setIsDisable] = useState(false);
+    const [total, setTotal] = useState();
 
-    const handleTakeGift = async (index) => {
+    // Đổi kiểu khi lấy dữ liệu từ localStorage
+    const praseJSON = (item) => {
+        return JSON.parse(item);
+    };
+
+    // Đổi kiểu khi đẩy dữ liệu lên localStorage
+    const stringifyJSON = (item) => {
+        return JSON.stringify(item);
+    };
+
+    // Lấy dữ liệu từ localStorage
+    const localGET = (name) => {
+        const result = localStorage.getItem(name);
+        return praseJSON(result);
+    };
+
+    // set dữ liệu lên localStorage
+    const localSET = (name, item) => {
+        return localStorage.setItem(name, stringifyJSON(item));
+    };
+    // Hàm lấy ngày hiện tại
+    const getToday = () => {
         const day = new Date();
         const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const today = `on ${daysOfWeek[day.getDay()]} ${day.getDate()} - ${day.getMonth() + 1} - ${day.getFullYear()} `;
+        return today;
+    };
 
+    // Tạo mảng mới bằng cách loại bỏ mission đã đã được nhận quà
+    const handleDeleteMissionCompleted = (index) => {
         const updatedList = listMissionDone.filter((_, i) => i !== index);
-        const aCompleteMission = listMissionDone[index] + ' ' + today;
-        console.log('a: ', aCompleteMission);
-        setAllMission((prev) => [...prev, aCompleteMission]);
         setListMissionDone(updatedList);
-        localStorage.setItem('listMissionDone', JSON.stringify(updatedList));
-        const result = JSON.parse(localStorage.getItem('bonus'));
-        localStorage.setItem('bonus', JSON.stringify(result + 1));
-        contextMission.updateNow();
+        localSET('listMissionDone', updatedList);
+    };
+
+    // Mission nào đã được nhận quà sẽ được đưa vào listALLMISSIOn (mảng chứa tất cả các mission completed)
+    const updateAllMissionCompleted = (index) => {
+        let allMission = [];
+        const resutAllMission = localGET('allMission');
+        const aCompleteMission = listMissionDone[index] + ' ' + getToday();
+        allMission = resutAllMission || [];
+        allMission.push(aCompleteMission);
+        localSET('allMission', allMission);
+    };
+
+    // Sau khi nhận quà thì coin sẽ được tăng lên 1 và lưu vào database
+    const handleIncreaseBonus = () => {
+        const result = localGET('bonus');
+        localSET('bonus', result + 1);
+    };
+
+    // Sử dụng hiệu ứng khi nhận quà từ mission completed
+    const applyEffect = async () => {
         setFire(true);
         setIsDisable(true);
         await refAudio.current.play();
@@ -43,17 +82,29 @@ function DoneList() {
         }, 1000);
     };
 
-    useEffect(() => {
-        localStorage.setItem('allMission', JSON.stringify(allMission));
-    }, [allMission]);
+    // Xử lý khi nhận quà
+    const handleTakeGift = async (index) => {
+        handleDeleteMissionCompleted(index);
+        updateAllMissionCompleted(index);
+        handleIncreaseBonus();
+
+        // Dòng lệnh này để update giao diện
+        contextMission.updateNow();
+
+        // Tạo hiệu ứng chúc mừng khi nhận quà
+        applyEffect();
+    };
 
     useEffect(() => {
-        const result = localStorage.getItem('listMissionDone');
-        setListMissionDone(JSON.parse(result) || []);
-        const allMission = localStorage.getItem('allMission');
-        setAllMission(JSON.parse(allMission) || []);
+        // Lấy dữ liệu từ db và đưa dữ liệu tạm thời vào các biến state để sử dụng dữ liệu
+        const result = localGET('listMissionDone');
+        setListMissionDone(result || []);
+        const allMission = localGET('allMission');
+        setTotal(allMission?.length || 0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [contextMission.update]);
 
+    // Set time chạy hiệu ứng chúc mừng
     useEffect(() => {
         if (fire) {
             setTimeout(() => {
@@ -78,9 +129,21 @@ function DoneList() {
                 <div>
                     <button className={cx('all-completed')} onClick={() => contextMission.setAll(true)}>
                         All
+                        <span
+                            className={cx(
+                                'total',
+                                { total0: total === 0 },
+                                { total1: 0 < total && total < 10 },
+                                { total2: total < 100 },
+                                { total100: 100 <= total },
+                                { total101: 100 < total },
+                            )}
+                        >
+                            {total <= 100 ? total : '100+'}
+                        </span>
                     </button>
                 </div>
-                <h2 style={{ fontFamily: 'Inter-Bold' }}>
+                <h2 className={cx('title-done-list')} style={{ fontFamily: 'Inter-Bold' }}>
                     Mission completed <i className="fa-brands fa-gratipay"></i>
                 </h2>
 

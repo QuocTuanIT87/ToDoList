@@ -12,6 +12,7 @@ function Header() {
 
     const [today, setToday] = useState();
     const [bonus, setBonuses] = useState();
+    const [day, setDay] = useState();
 
     const [dark, setDark] = useState(false);
 
@@ -44,6 +45,7 @@ function Header() {
                 day.getMonth() + 1
             } - ${day.getFullYear()} || ${day.getHours()} : ${day.getMinutes()} : ${day.getSeconds()}`;
             setToday(today);
+            setDay(day.getDate());
         }, 1000);
 
         const theme = localStorage.getItem('theme');
@@ -61,6 +63,8 @@ function Header() {
             clearInterval(intervalId);
         };
     }, []);
+
+    useEffect(() => {}, [day]);
 
     useEffect(() => {
         const result = localStorage.getItem('bonus');
@@ -82,7 +86,7 @@ function Header() {
                     <div className={cx('value-gift')}>
                         {bonus || 0} <i className={cx('fa-solid fa-coins')}></i>
                     </div>
-                    <button className={cx('btn-draw')}>Draw</button>
+                    <button className={cx('btn-draw')}>Withdraw</button>
 
                     <button className={cx('btn-draw')}>
                         Theme <i className="fa-solid fa-palette"></i>

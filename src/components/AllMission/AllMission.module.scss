@@ -11,11 +11,23 @@
 .container {
     width: 1200px;
     height: 600px;
-
+    position: relative;
     background-color: var(--background-modal);
     color: var(--color-modal);
     border-radius: 8px;
     animation: show 0.4s ease-in-out;
+    opacity: 1;
+
+    .no-mission {
+        position: absolute;
+        font-family: Inter-bold;
+        top: 36%;
+        right: 50%;
+        transform: translateX(50%);
+        font-size: 32px;
+        color: var(--color-modal);
+        opacity: 0.8;
+    }
 }
 
 @keyframes show {

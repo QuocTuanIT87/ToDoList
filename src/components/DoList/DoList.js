@@ -7,17 +7,52 @@ import sound from '../../assets/audio/sound.mp3';
 const cx = classNames.bind(styles);
 
 function DoList() {
-    const myRef = useRef();
     const contextMission = useContext(missionContext);
+
+    const myRef = useRef();
     const refAudio = useRef();
 
     const [mission, setMission] = useState('');
     const [listMission, setListMission] = useState([]);
+    const [isDisable, setIsDisable] = useState(false);
+
+    const [percentComplete, setPercentComplete] = useState();
+    const [percentTotal, setPercentTotal] = useState();
+    const [progress, setProgress] = useState();
+
+    // Đổi kiểu khi lấy dữ liệu từ localStorage
+    const praseJSON = (item) => {
+        return JSON.parse(item);
+    };
+
+    // Đổi kiểu khi đẩy dữ liệu lên localStorage
+    const stringifyJSON = (item) => {
+        return JSON.stringify(item);
+    };
+
+    // Lấy dữ liệu từ localStorage
+    const localGET = (name) => {
+        const result = localStorage.getItem(name);
+        return praseJSON(result);
+    };
+
+    // set dữ liệu lên localStorage
+    const localSET = (name, item) => {
+        return localStorage.setItem(name, stringifyJSON(item));
+    };
+
+    // Thêm mission vào list
     const handleAddMission = () => {
         if (mission) {
             const updatedList = [...listMission, mission];
             setListMission((prev) => [...prev, mission]);
-            localStorage.setItem('listMission', JSON.stringify(updatedList));
+            localSET('listMission', updatedList);
+
+            const result = localGET('total');
+            setPercentTotal(result + 1);
+            localSET('total', result + 1);
+            handleTakeProgress();
+
             setMission('');
             myRef.current.focus();
         } else {
@@ -25,26 +60,72 @@ function DoList() {
         }
     };
 
+    // Xóa mission khi mission completed
+    const handleRemoveMission = (index) => {
+        const updatedList = listMission.filter((_, i) => i !== index);
+        setListMission(updatedList);
+        localSET('listMission', updatedList);
+    };
+
+    // Xóa mission khi không muốn làm mission đó nữa
     const handleDeleteMission = (index) => {
         const updatedList = listMission.filter((_, i) => i !== index);
         setListMission(updatedList);
-        localStorage.setItem('listMission', JSON.stringify(updatedList));
+        localSET('listMission', updatedList);
+
+        const result = localGET('total');
+        setPercentTotal(result - 1);
+        localSET('total', result - 1);
+        handleTakeProgress();
     };
 
+    // Xử lý lấy % hoàn thành mission
+    const handleTakeProgress = () => {
+        const total = localGET('total');
+        const completed = localGET('completed');
+        setProgress(completed / total);
+    };
+
+    // Xử lý khi hoàn thành nhiệm vụ
     const handleCompleteMission = (index) => {
         const result = listMission.filter((_, i) => i === index);
-        const listDone = JSON.parse(localStorage.getItem('listMissionDone')) || [];
+        const listDone = localGET('listMissionDone') || [];
         const updatedList = [...listDone, result];
-        localStorage.setItem('listMissionDone', JSON.stringify(updatedList));
-        handleDeleteMission(index);
+        localSET('listMissionDone', updatedList);
+
+        const completed = localGET('completed');
+
+        localSET('completed', completed + 1);
+        setPercentComplete(completed + 1);
+
+        handleRemoveMission(index);
+        handleTakeProgress();
+
         contextMission.updateNow();
         refAudio.current.play();
+        setIsDisable(true);
+        setTimeout(() => {
+            setIsDisable(false);
+        }, 1000);
     };
 
+    // Lấy dữ liệu từ database để xử lý
     useEffect(() => {
-        const result = localStorage.getItem('listMission');
-        setListMission(JSON.parse(result) || []);
+        const result = localGET('listMission');
+        setListMission(result || []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mission]);
+
+    useEffect(() => {
+        const total = localGET('total');
+        setPercentTotal(total || 0);
+
+        const completed = localGET('completed');
+        setPercentComplete(completed || 0);
+
+        setProgress(completed / total);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -55,8 +136,10 @@ function DoList() {
                 <button className={cx('btn-back')}>
                     <i className="fa-solid fa-rotate-left"></i>
                 </button>
-                <h2 style={{ fontFamily: 'Inter-Bold' }}>
-                    Today mission <i className="fa-solid fa-briefcase"></i>
+                <h2 className={cx('title-do-list')} style={{ fontFamily: 'Inter-Bold' }}>
+                    Today mission <i className="fa-solid fa-briefcase"></i>{' '}
+                    <progress value={progress} className={cx('progress-bar')}></progress>
+                    <span className={cx('percent-progress')}>{`${Math.round(progress * 100) || 0}%`}</span>
                 </h2>
                 <div className={cx('cover-input')}>
                     <input
@@ -89,7 +172,10 @@ function DoList() {
                                 <button className={cx('btn', 'delete')} onClick={() => handleDeleteMission(index)}>
                                     <i className="fa-regular fa-trash-can"></i>
                                 </button>
-                                <button className={cx('btn', 'complete')} onClick={() => handleCompleteMission(index)}>
+                                <button
+                                    className={cx('btn', 'complete', { disable: isDisable })}
+                                    onClick={() => handleCompleteMission(index)}
+                                >
                                     <i className="fa-solid fa-check"></i>
                                 </button>
                             </div>
