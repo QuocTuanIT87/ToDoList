@@ -6,6 +6,7 @@ function MissionProvider({ children }) {
     const [update, setUpdate] = useState(false);
     const [reset, setReset] = useState(false);
     const [all, setAll] = useState(false);
+    const [draw, setDraw] = useState(false);
 
     // Xử lý stack
     const [stack, setStack] = useState([]);
@@ -72,6 +73,8 @@ function MissionProvider({ children }) {
         allMissonCompleted,
         setAllMissionCompleted,
         handleDeleteLastItemAllMissionDone,
+        draw,
+        setDraw,
     };
 
     return <missionContext.Provider value={value}>{children}</missionContext.Provider>;

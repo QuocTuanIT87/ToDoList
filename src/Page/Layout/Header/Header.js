@@ -4,6 +4,8 @@ import classNames from 'classnames/bind';
 import { missionContext } from '../../../components/MissionProvider/MissionProvider';
 import Modal from '../../../components/Modal';
 import logo from '../../../assets/images/logo.png';
+import message from '../../../components/MessageItem/MessageItem';
+import Loading from '../../../components/Loading';
 
 const cx = classNames.bind(styles);
 
@@ -12,9 +14,12 @@ function Header() {
 
     const [today, setToday] = useState();
     const [bonus, setBonuses] = useState();
-    const [day, setDay] = useState();
 
     const [dark, setDark] = useState(false);
+
+    const [number, setNumber] = useState();
+    const [day, setDay] = useState();
+    const [time, setTime] = useState();
 
     const handleResetGift = () => {
         contextMission.setReset(true);
@@ -24,6 +29,15 @@ function Header() {
         const theme = e.target.innerText;
         document.querySelector('body').setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
+    };
+
+    const handleWithDraw = () => {
+        const random = Math.floor(Math.random() * (3500 - 1000 + 1)) + 1000;
+        contextMission.setDraw(true);
+        setTimeout(() => {
+            contextMission.setDraw(false);
+            alert(message.errorWithDraw);
+        }, [random]);
     };
 
     const handelDarkMode = () => {
@@ -41,11 +55,9 @@ function Header() {
         const intervalId = setInterval(() => {
             const day = new Date();
             const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            const today = `${daysOfWeek[day.getDay()]} || ${day.getDate()} - ${
-                day.getMonth() + 1
-            } - ${day.getFullYear()} || ${day.getHours()} : ${day.getMinutes()} : ${day.getSeconds()}`;
-            setToday(today);
-            setDay(day.getDate());
+            setNumber(daysOfWeek[day.getDay()]);
+            setDay(`${day.getDate()} - ${day.getMonth() + 1} - ${day.getFullYear()}`);
+            setTime(`${day.getHours()} : ${day.getMinutes()} : ${day.getSeconds()}`);
         }, 1000);
 
         const theme = localStorage.getItem('theme');
@@ -64,8 +76,6 @@ function Header() {
         };
     }, []);
 
-    useEffect(() => {}, [day]);
-
     useEffect(() => {
         const result = localStorage.getItem('bonus');
         setBonuses(JSON.parse(result));
@@ -74,19 +84,23 @@ function Header() {
     return (
         <div className={cx('wrapper')}>
             {contextMission.reset && <Modal />}
+            {contextMission.draw && <Loading />}
             <div className={cx('container')}>
                 <div>
                     <img className={cx('logo')} src={logo} alt="logo" />
                 </div>
-                <div>
-                    <i className={cx('fa-solid fa-calendar-day')}></i> {today}
+                <div className={cx('cover-time')}>
+                    <i className={cx('fa-solid fa-calendar-day')}></i> {number}
+                    {', '} {day} {', '} {time} <i class="fa-regular fa-clock"></i>
                 </div>
                 <div className={cx('cover-gift')}>
                     <span className={cx('label-gift')}>Gift: </span>
                     <div className={cx('value-gift')}>
                         {bonus || 0} <i className={cx('fa-solid fa-coins')}></i>
                     </div>
-                    <button className={cx('btn-draw')}>Withdraw</button>
+                    <button className={cx('btn-draw')} onClick={handleWithDraw}>
+                        Withdraw
+                    </button>
 
                     <button className={cx('btn-draw')}>
                         Theme <i className="fa-solid fa-palette"></i>

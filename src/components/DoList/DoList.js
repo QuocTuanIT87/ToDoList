@@ -201,7 +201,9 @@ function DoList() {
 
         // Giảm giá trị tiền thưởng xuống 1 đơn vị
         const coin = localGET('bonus');
-        localSET('bonus', coin - 1);
+        if (coin > 0) {
+            localSET('bonus', coin - 1);
+        }
 
         // Cập nhật lại danh sách tất cả mission đã hoàn thành
         const allMissonCompleted = contextMission.allMissonCompleted;
