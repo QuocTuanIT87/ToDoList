@@ -12,7 +12,6 @@ const cx = classNames.bind(styles);
 function Header() {
     const contextMission = useContext(missionContext);
 
-    const [today, setToday] = useState();
     const [bonus, setBonuses] = useState();
 
     const [dark, setDark] = useState(false);
@@ -21,16 +20,42 @@ function Header() {
     const [day, setDay] = useState();
     const [time, setTime] = useState();
 
-    const handleResetGift = () => {
-        contextMission.setReset(true);
+    const stringifyJSON = (item) => {
+        return JSON.stringify(item);
     };
 
+    const localSET = (name, item) => {
+        return localStorage.setItem(name, stringifyJSON(item));
+    };
+
+    // Đổi kiểu khi lấy dữ liệu từ localStorage
+    const praseJSON = (item) => {
+        return JSON.parse(item);
+    };
+    // Lấy dữ liệu từ localStorage
+    const localGET = (name) => {
+        const result = localStorage.getItem(name);
+        return praseJSON(result);
+    };
+
+    // Reset tất cả các giá trị
+    const handleResetGift = () => {
+        contextMission.setReset(true);
+        localSET('listMission', []);
+        localSET('listMissionDone', []);
+        localSET('allMission', []);
+        localSET('total', 0);
+        localSET('completed', 0);
+    };
+
+    // Xử lý set theme cho giao diện
     const handleSetTheme = (e) => {
         const theme = e.target.innerText;
         document.querySelector('body').setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
+        localSET('theme', theme);
     };
 
+    // Xử lý rút tiền
     const handleWithDraw = () => {
         const random = Math.floor(Math.random() * (3500 - 1000 + 1)) + 1000;
         contextMission.setDraw(true);
@@ -40,17 +65,19 @@ function Header() {
         }, [random]);
     };
 
+    // Xử lý chế độ dark mode
     const handelDarkMode = () => {
         setDark(!dark);
         if (!dark) {
             document.querySelector('body').setAttribute('data-mode', 'darkmode');
-            localStorage.setItem('mode', 'darkmode');
+            localSET('mode', 'darkmode');
         } else {
             document.querySelector('body').setAttribute('data-mode', 'lightmode');
-            localStorage.setItem('mode', 'lightmode');
+            localSET('mode', 'lightmode');
         }
     };
 
+    // Lấy thời gian hiện tại theo từng second
     useEffect(() => {
         const intervalId = setInterval(() => {
             const day = new Date();
@@ -59,31 +86,41 @@ function Header() {
             setDay(`${day.getDate()} - ${day.getMonth() + 1} - ${day.getFullYear()}`);
             setTime(`${day.getHours()} : ${day.getMinutes()} : ${day.getSeconds()}`);
         }, 1000);
-
-        const theme = localStorage.getItem('theme');
-        const mode = localStorage.getItem('mode');
-        document.querySelector('body').setAttribute('data-theme', theme || 'default');
-        document.querySelector('body').setAttribute('data-mode', mode || 'lightmode');
-
-        if (mode === 'lightmode' || !mode) {
-            setDark(false);
-        } else {
-            setDark(true);
-        }
-
         return () => {
             clearInterval(intervalId);
         };
     }, []);
 
     useEffect(() => {
-        const result = localStorage.getItem('bonus');
-        setBonuses(JSON.parse(result));
+        // Khi chưa có biến nextday ở local thì mới set
+        if (!localGET('nextday')) {
+            const day = new Date();
+            const nextDay = day.getDate() + 1;
+            localSET('nextday', nextDay);
+        }
+
+        // Set những giá trị đã được người dùng chọn trước đó
+        const theme = localGET('theme');
+        const mode = localGET('mode');
+        document.querySelector('body').setAttribute('data-theme', theme || 'default');
+        document.querySelector('body').setAttribute('data-mode', mode || 'lightmode');
+        if (mode === 'lightmode' || !mode) {
+            setDark(false);
+        } else {
+            setDark(true);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        const result = localGET('bonus');
+        setBonuses(result);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [contextMission.update]);
 
     return (
         <div className={cx('wrapper')}>
-            {contextMission.reset && <Modal />}
+            {contextMission.reset && <Modal title={message.titleReset} message={message.messageResetAll} />}
             {contextMission.draw && <Loading />}
             <div className={cx('container')}>
                 <div>
@@ -91,7 +128,7 @@ function Header() {
                 </div>
                 <div className={cx('cover-time')}>
                     <i className={cx('fa-solid fa-calendar-day')}></i> {number}
-                    {', '} {day} {', '} {time} <i class="fa-regular fa-clock"></i>
+                    {', '} {day} {', '} {time} <i className="fa-regular fa-clock"></i>
                 </div>
                 <div className={cx('cover-gift')}>
                     <span className={cx('label-gift')}>Gift: </span>

@@ -12,17 +12,34 @@
     background-color: #fff;
     padding: 16px;
     border-radius: 8px;
+    text-align: center;
+    animation: show 0.2s ease-in-out;
 
     p {
         font-size: 18px;
         font-family: Inter-bold;
-        margin-bottom: 24px;
         color: #000;
+    }
+
+    .message {
+        font-size: 16px;
+        color: red;
+        font-family: Inter-Medium;
+    }
+}
+
+@keyframes show {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }
 
 .cover-btn {
     text-align: center;
+    margin-top: 24px;
 
     .btn {
         padding: 6px 16px;

@@ -18,6 +18,29 @@ function DoList() {
 
     const [progress, setProgress] = useState();
 
+    // Kiểm tra mỗi giây để nhận biết đã qua ngày mới chưa
+    // Nếu đã qua ngày mới, những nhiệm vụ ngày cũ sẽ bị xóa và thành progress sẽ được reset về zero
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            const day = new Date();
+            const nextDay = parseInt(localGET('nextday'));
+            const today = day.getDate();
+
+            if (today === nextDay) {
+                localSET('completed', 0);
+                localSET('total', 0);
+                localSET('listMission', []);
+                localSET('nextday', localGET('nextday') + 1);
+                handleTakeProgress();
+                setListMission([]);
+            }
+        }, 1000);
+        return () => {
+            clearInterval(intervalId);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     // Đổi kiểu khi lấy dữ liệu từ localStorage
     const praseJSON = (item) => {
         return JSON.parse(item);
@@ -126,21 +149,16 @@ function DoList() {
         }, 1000);
     };
 
-    // Lấy dữ liệu từ database để xử lý
+    // Cập nhật listMission và giao diện mỗi khi có thêm mới mission và biến update được gọi
     useEffect(() => {
+        const total = localGET('total');
+        const completed = localGET('completed');
+        setProgress(completed / total);
+
         const result = localGET('listMission');
         setListMission(result || []);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [mission]);
-
-    useEffect(() => {
-        const total = localGET('total');
-
-        const completed = localGET('completed');
-
-        setProgress(completed / total);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [contextMission.update, mission]);
 
     const deleteLastItem = (arr) => {
         const updatedArr = arr.filter((_, index) => index !== arr.length - 1);
@@ -243,7 +261,7 @@ function DoList() {
                     <i className="fa-solid fa-rotate-left"></i>
                 </button>
                 <h2 className={cx('title-do-list')} style={{ fontFamily: 'Inter-Bold' }}>
-                    Today mission <i className="fa-solid fa-briefcase"></i>{' '}
+                    Today mission <i className="fa-solid fa-briefcase"></i>
                     <progress value={progress} className={cx('progress-bar')}></progress>
                     <span className={cx('percent-progress')}>{`${Math.round(progress * 100) || 0}%`}</span>
                 </h2>
