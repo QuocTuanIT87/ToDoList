@@ -2,8 +2,8 @@ import Confetti from 'react-confetti';
 
 const Fireworks = () => {
     return (
-        <div>
-            <Confetti width={1500} />
+        <div style={{ position: 'fixed', inset: '0', zIndex: '3' }}>
+            <Confetti />
         </div>
     );
 };
