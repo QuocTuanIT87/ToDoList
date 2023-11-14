@@ -1,5 +1,6 @@
 import DoList from '../../components/DoList';
 import DoneList from '../../components/DoneList';
+import Footer from '../Layout/Footer/Footer';
 import Header from '../Layout/Header';
 import styles from './HomePage.module.scss';
 import classNames from 'classnames/bind';
@@ -22,6 +23,9 @@ function HomePage() {
                             <DoneList />
                         </div>
                     </div>
+                </div>
+                <div>
+                    <Footer />
                 </div>
             </div>
         </div>

@@ -58,11 +58,16 @@ function Header() {
     // Xử lý rút tiền
     const handleWithDraw = () => {
         const random = Math.floor(Math.random() * (3500 - 1000 + 1)) + 1000;
-        contextMission.setDraw(true);
-        setTimeout(() => {
-            contextMission.setDraw(false);
-            alert(message.errorWithDraw);
-        }, [random]);
+        const coin = localGET('bonus');
+        if (!coin || coin === 0) {
+            alert(message.noMoneyMessage);
+        } else {
+            contextMission.setDraw(true);
+            setTimeout(() => {
+                contextMission.setDraw(false);
+                alert(message.errorWithDraw);
+            }, [random]);
+        }
     };
 
     // Xử lý chế độ dark mode

@@ -121,6 +121,9 @@
 }
 
 .title-done-list {
+    display: inline-block;
+    margin-left: 10px;
+    font-family: Agbalumo-Regular;
     i {
         color: var(--color-text);
     }

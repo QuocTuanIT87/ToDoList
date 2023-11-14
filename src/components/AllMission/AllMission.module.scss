@@ -19,14 +19,16 @@
     opacity: 1;
 
     .no-mission {
+        text-align: center;
         position: absolute;
-        font-family: Inter-bold;
+        font-family: Agbalumo-Regular;
         top: 36%;
         right: 50%;
         transform: translateX(50%);
-        font-size: 32px;
+        font-size: 42px;
         color: var(--color-modal);
         opacity: 0.8;
+        min-width: 100%;
     }
 }
 

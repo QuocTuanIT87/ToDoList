@@ -158,10 +158,8 @@ function DoneList() {
                             {total <= 100 ? total : '100+'}
                         </span>
                     </button>
+                    <h2 className={cx('title-done-list')}>Mission completed</h2>
                 </div>
-                <h2 className={cx('title-done-list')} style={{ fontFamily: 'Inter-Bold' }}>
-                    Mission completed <i className="fa-brands fa-gratipay"></i>
-                </h2>
 
                 <div className={cx('list-missions')}>
                     {listMissionDone?.map((mission, index) => (

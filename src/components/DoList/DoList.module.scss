@@ -20,11 +20,17 @@
         border-radius: 50%;
         width: 42px;
         height: 42px;
+        display: inline-block;
 
         &:hover {
             cursor: pointer;
             color: var(--primary-color);
         }
+    }
+
+    .title-do-list {
+        display: inline-block;
+        margin-left: 8px;
     }
 }
 
@@ -72,7 +78,7 @@
 }
 
 .list-missions {
-    margin-top: 32px;
+    margin-top: 18px;
     overflow-y: auto;
     max-height: 460px;
 }
@@ -129,15 +135,17 @@
 }
 
 .title-do-list {
+    font-family: Agbalumo-Regular;
     i {
         color: var(--color-text);
     }
 }
 
 .progress-bar {
+    margin-top: 8px;
     -webkit-appearance: none;
     appearance: none;
-    width: 100%;
+    width: 204%;
     height: 14px;
     border: 2px solid var(--color-text);
     background-color: var(--color-text);
@@ -156,4 +164,5 @@
 
 .percent-progress {
     color: var(--color-text);
+    font-family: Inter-bold;
 }

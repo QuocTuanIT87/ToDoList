@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 function Loading() {
     return (
         <div className={cx('wrapper')}>
-            <ClockLoader color={'var(--primary-color)'} size={140} />
+            <ClockLoader color={'var(--color-modal)'} size={140} />
         </div>
     );
 }

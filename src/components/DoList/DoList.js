@@ -1,8 +1,10 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import styles from './DoList.module.scss';
 import classNames from 'classnames/bind';
+
+import styles from './DoList.module.scss';
 import { missionContext } from '../MissionProvider/MissionProvider';
 import sound from '../../assets/audio/sound.mp3';
+import Congratulation from '../Congratulation';
 
 const cx = classNames.bind(styles);
 
@@ -19,7 +21,9 @@ function DoList() {
     const [progress, setProgress] = useState();
 
     // Kiểm tra mỗi giây để nhận biết đã qua ngày mới chưa
-    // Nếu đã qua ngày mới, những nhiệm vụ ngày cũ sẽ bị xóa và thành progress sẽ được reset về zero
+    // Nếu đã qua ngày mới,
+    // Nếu nhiệm vụ ngày cũ vẫn còn thì không set gì hết
+    // Ngược lại nếu nhiệm vụ ngày cũ đã được hoàn thành hết thì thành progress sẽ bị reset
     useEffect(() => {
         const intervalId = setInterval(() => {
             const day = new Date();
@@ -27,12 +31,14 @@ function DoList() {
             const today = day.getDate();
 
             if (today === nextDay) {
-                localSET('completed', 0);
-                localSET('total', 0);
-                localSET('listMission', []);
+                const totalMission = localGET('listMission');
+                if (!totalMission || totalMission.length === 0) {
+                    localSET('completed', 0);
+                    localSET('total', 0);
+                    handleTakeProgress();
+                    setListMission([]);
+                }
                 localSET('nextday', localGET('nextday') + 1);
-                handleTakeProgress();
-                setListMission([]);
             }
         }, 1000);
         return () => {
@@ -147,6 +153,13 @@ function DoList() {
         setTimeout(() => {
             setIsDisable(false);
         }, 1000);
+
+        // nếu tất cả nhiệm vụ đã được hoàn thành thì sẽ hiển thị thông báo chúc mừng
+        const totalCheck = localGET('total');
+        const completedCheck = localGET('completed');
+        if (totalCheck / completedCheck === 1) {
+            contextMission.setCongratulation(true);
+        }
     };
 
     // Cập nhật listMission và giao diện mỗi khi có thêm mới mission và biến update được gọi
@@ -230,8 +243,11 @@ function DoList() {
         const newAllMission = allMission.filter((item) => item !== allMissonCompleted[allMissonCompleted.length - 1]);
         localSET('allMission', newAllMission);
 
+        // Xử lý xóa phần tử cuối tạm thời ở stack
         contextMission.handleDeleteLastItemGift();
         contextMission.handleDeleteLastItemAllMissionDone();
+
+        // Cập nhật lại giao diện
         contextMission.updateNow();
     };
 
@@ -253,6 +269,7 @@ function DoList() {
 
     return (
         <div className={cx('wrapper')}>
+            {contextMission.congratulation && <Congratulation />}
             <audio ref={refAudio} style={{ display: ' none' }}>
                 <source src={sound} />
             </audio>
@@ -260,11 +277,11 @@ function DoList() {
                 <button className={cx('btn-back')} onClick={handleBackAction}>
                     <i className="fa-solid fa-rotate-left"></i>
                 </button>
-                <h2 className={cx('title-do-list')} style={{ fontFamily: 'Inter-Bold' }}>
-                    Today mission <i className="fa-solid fa-briefcase"></i>
+                <h2 className={cx('title-do-list')}>Today mission</h2>
+                <div>
                     <progress value={progress} className={cx('progress-bar')}></progress>
                     <span className={cx('percent-progress')}>{`${Math.round(progress * 100) || 0}%`}</span>
-                </h2>
+                </div>
                 <div className={cx('cover-input')}>
                     <input
                         ref={myRef}

@@ -1,0 +1,18 @@
+.wrapper {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 3;
+}
+.container {
+    text-align: center;
+    background-color: var(--background-modal);
+}
+.quotes {
+    color: var(--color-text);
+    font-family: Agbalumo-Regular;
+    font-size: 24px;
+    padding-bottom: 8px;
+    line-height: 30px;
+}

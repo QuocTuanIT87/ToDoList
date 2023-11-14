@@ -11,7 +11,6 @@
 [data-theme='default'] {
     --primary-color: #ec1f55;
     --color-text: #ec1f55;
-    --background-modal: #fff;
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
 }
@@ -27,7 +26,6 @@
 [data-theme='black'] {
     --primary-color: #242526;
     --color-text: #242526;
-    --background-modal: #fff;
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
 }
@@ -35,7 +33,6 @@
 [data-theme='orange'] {
     --primary-color: orange;
     --color-text: orange;
-    --background-modal: #fff;
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
 }
@@ -43,7 +40,6 @@
 [data-theme='blue'] {
     --primary-color: rgb(181, 181, 242);
     --color-text: rgb(181, 181, 242);
-    --background-modal: #fff;
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
 }
@@ -51,7 +47,6 @@
 [data-theme='green'] {
     --primary-color: rgb(62, 227, 62);
     --color-text: rgb(62, 227, 62);
-    --background-modal: #fff;
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
 }
@@ -59,7 +54,6 @@
 [data-theme='gray'] {
     --primary-color: gray;
     --color-text: gray;
-    --background-modal: #fff;
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
 }
@@ -67,7 +61,6 @@
 [data-mode='darkmode'] {
     background-color: #292929;
     color: #fff;
-    background-image: none;
     transition: 0.4s ease-in-out;
     --color-text: #fff;
     --background-modal: #292929;
@@ -78,6 +71,7 @@
 [data-mode='lightmode'] {
     background-color: #fff;
     transition: 0.4s ease-in-out;
+    --background-modal: #fff;
 }
 
 body {
@@ -112,6 +106,18 @@ input::-ms-clear {
 @font-face {
     font-family: Inter-Bold;
     src: url('/assets/fonts/static/Inter-Bold.ttf');
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: Agbalumo-Regular;
+    src: url('/assets/fonts/static/Agbalumo-Regular.ttf');
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: PermanentMarker-Regular;
+    src: url('/assets/fonts/static/PermanentMarker-Regular.ttf');
     font-weight: 200;
 }
 
