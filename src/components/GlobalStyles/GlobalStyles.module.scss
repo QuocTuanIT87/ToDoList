@@ -13,6 +13,7 @@
     --color-text: #ec1f55;
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
+    --input-text: #ef4b77;
 }
 
 [data-theme='pink'] {
@@ -21,6 +22,7 @@
     --background-modal: #fff;
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
+    --input-text: rgb(211, 122, 137);
 }
 
 [data-theme='black'] {
@@ -28,6 +30,7 @@
     --color-text: #242526;
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
+    --input-text: var(--primary-color);
 }
 
 [data-theme='orange'] {
@@ -35,6 +38,7 @@
     --color-text: orange;
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
+    --input-text: var(--primary-color);
 }
 
 [data-theme='blue'] {
@@ -42,6 +46,7 @@
     --color-text: rgb(181, 181, 242);
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
+    --input-text: var(--primary-color);
 }
 
 [data-theme='green'] {
@@ -49,6 +54,7 @@
     --color-text: rgb(62, 227, 62);
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
+    --input-text: var(--primary-color);
 }
 
 [data-theme='gray'] {
@@ -56,6 +62,7 @@
     --color-text: gray;
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
+    --input-text: rgb(76, 76, 76);
 }
 
 [data-mode='darkmode'] {
