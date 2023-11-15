@@ -13,7 +13,7 @@
     --color-text: #ec1f55;
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
-    --input-text: #ef4b77;
+    --input-text: #be0d3d;
 }
 
 [data-theme='pink'] {
@@ -38,7 +38,7 @@
     --color-text: orange;
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
-    --input-text: var(--primary-color);
+    --input-text: rgb(166, 110, 5);
 }
 
 [data-theme='blue'] {
@@ -46,7 +46,7 @@
     --color-text: rgb(181, 181, 242);
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
-    --input-text: var(--primary-color);
+    --input-text: rgb(133, 133, 238);
 }
 
 [data-theme='green'] {
@@ -54,7 +54,7 @@
     --color-text: rgb(62, 227, 62);
     --color-modal: var(--primary-color);
     --color-boder: var(--primary-color);
-    --input-text: var(--primary-color);
+    --input-text: rgb(13, 165, 13);
 }
 
 [data-theme='gray'] {
