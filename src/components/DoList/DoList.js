@@ -80,7 +80,7 @@ function DoList() {
 
         // Giảm total mission xuống 1 đơn vị
         const result = localGET('total');
-        if (result >= 0) {
+        if (result > 0) {
             localSET('total', result - 1);
         }
 
@@ -179,7 +179,7 @@ function DoList() {
 
         // Giảm số nhiệm vụ đã hoàn thành xuống 1
         const completed = localGET('completed');
-        if (completed >= 0) {
+        if (completed > 0) {
             localSET('completed', completed - 1);
         }
 
