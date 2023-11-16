@@ -148,6 +148,7 @@ function DoList() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [contextMission.update, mission]);
 
+    // Xóa phần tử cuối mảng
     const deleteLastItem = (arr) => {
         const updatedArr = arr.filter((_, index) => index !== arr.length - 1);
         contextMission.setStack(updatedArr);
@@ -155,9 +156,21 @@ function DoList() {
 
     // Reset thanh progress
     const handleResetBar = () => {
+        // Lấy dữ liệu trước khi reset
+        const completed = localGET('completed');
+        const total = localGET('total');
+
+        // Đưa dữ liệu tạm thời vào stack để lưu trữ
+        contextMission.setTotal(total);
+        contextMission.setCompleted(completed);
+
+        // Reset the progress bar
         localSET('completed', 0);
         localSET('total', 0);
         handleTakeProgress();
+
+        // Set stack
+        contextMission.setStack((prev) => [...prev, 'reset-bar']);
     };
 
     // Xử lý back hành động ấn hoàn thành nhiệm vụ
@@ -234,6 +247,12 @@ function DoList() {
         contextMission.updateNow();
     };
 
+    const handelBackResetBar = () => {
+        localSET('total', contextMission.total);
+        localSET('completed', contextMission.completed);
+        handleTakeProgress();
+    };
+
     // Hoàn tác lại những hành động người dùng vừa làm (dùng Stack)
     const handleBackAction = () => {
         const stack = contextMission.stack;
@@ -246,6 +265,9 @@ function DoList() {
             deleteLastItem(stack);
         } else if (stack[stack.length - 1] === 'delete') {
             handleBackDelete();
+            deleteLastItem(stack);
+        } else if (stack[stack.length - 1] === 'reset-bar') {
+            handelBackResetBar();
             deleteLastItem(stack);
         }
     };

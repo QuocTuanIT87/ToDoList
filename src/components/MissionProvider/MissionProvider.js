@@ -17,6 +17,8 @@ function MissionProvider({ children }) {
     const [itemDeleted, setItemDeleted] = useState([]);
     const [itemGifted, setItemGifted] = useState([]);
     const [allMissonCompleted, setAllMissionCompleted] = useState([]);
+    const [total, setTotal] = useState();
+    const [completed, setCompleted] = useState();
 
     // Xử lý xóa phần tử cuối (chung)
     const deleteLastItem = (item) => {
@@ -78,6 +80,10 @@ function MissionProvider({ children }) {
         setDraw,
         congratulation,
         setCongratulation,
+        total,
+        setTotal,
+        completed,
+        setCompleted,
     };
 
     return <missionContext.Provider value={value}>{children}</missionContext.Provider>;
