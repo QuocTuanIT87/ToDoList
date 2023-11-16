@@ -97,13 +97,6 @@ function Header() {
     }, []);
 
     useEffect(() => {
-        // Khi chưa có biến nextday ở local thì mới set
-        if (!localGET('nextday')) {
-            const day = new Date();
-            const nextDay = day.getDate() + 1;
-            localSET('nextday', nextDay);
-        }
-
         // Set những giá trị đã được người dùng chọn trước đó
         const theme = localGET('theme');
         const mode = localGET('mode');

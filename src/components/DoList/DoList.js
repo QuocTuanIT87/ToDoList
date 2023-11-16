@@ -20,33 +20,6 @@ function DoList() {
 
     const [progress, setProgress] = useState();
 
-    // Kiểm tra mỗi giây để nhận biết đã qua ngày mới chưa
-    // Nếu đã qua ngày mới,
-    // Nếu nhiệm vụ ngày cũ vẫn còn thì không set gì hết
-    // Ngược lại nếu nhiệm vụ ngày cũ đã được hoàn thành hết thì thành progress sẽ bị reset
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            const day = new Date();
-            const nextDay = parseInt(localGET('nextday'));
-            const today = day.getDate();
-
-            if (today === nextDay) {
-                const totalMission = localGET('listMission');
-                if (!totalMission || totalMission.length === 0) {
-                    localSET('completed', 0);
-                    localSET('total', 0);
-                    handleTakeProgress();
-                    setListMission([]);
-                }
-                localSET('nextday', localGET('nextday') + 1);
-            }
-        }, 1000);
-        return () => {
-            clearInterval(intervalId);
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     // Đổi kiểu khi lấy dữ liệu từ localStorage
     const praseJSON = (item) => {
         return JSON.parse(item);
@@ -178,6 +151,13 @@ function DoList() {
         contextMission.setStack(updatedArr);
     };
 
+    // Reset thanh progress
+    const handleResetBar = () => {
+        localSET('completed', 0);
+        localSET('total', 0);
+        handleTakeProgress();
+    };
+
     // Xử lý back hành động ấn hoàn thành nhiệm vụ
     const handelBackCompleted = () => {
         // Xóa phần tử cuối của danh sách đã hoàn thành
@@ -278,9 +258,10 @@ function DoList() {
                     <i className="fa-solid fa-rotate-left"></i>
                 </button>
                 <h2 className={cx('title-do-list')}>Today mission</h2>
-                <div>
+                <div className={cx('cover-bar')}>
                     <progress value={progress} className={cx('progress-bar')}></progress>
                     <span className={cx('percent-progress')}>{`${Math.round(progress * 100) || 0}%`}</span>
+                    <i className={cx('fa-solid fa-power-off', 'icon-reset-bar')} onClick={handleResetBar}></i>
                 </div>
                 <div className={cx('cover-input')}>
                     <input

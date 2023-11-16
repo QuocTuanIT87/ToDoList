@@ -77,6 +77,24 @@
     }
 }
 
+.cover-bar {
+    position: relative;
+    width: 204%;
+
+    .icon-reset-bar {
+        position: absolute;
+        top: -30px;
+        right: 0;
+        padding: 8px;
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 50%;
+
+        &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+        }
+    }
+}
 .list-missions {
     margin-top: 18px;
     overflow-y: auto;
@@ -146,7 +164,7 @@
     margin-top: 8px;
     -webkit-appearance: none;
     appearance: none;
-    width: 204%;
+    width: 100%;
     height: 14px;
     border: 2px solid var(--color-text);
     background-color: var(--color-text);
