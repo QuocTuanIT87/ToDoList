@@ -80,7 +80,9 @@ function DoList() {
 
         // Giảm total mission xuống 1 đơn vị
         const result = localGET('total');
-        localSET('total', result - 1);
+        if (result >= 0) {
+            localSET('total', result - 1);
+        }
 
         // Cập nhật lại thanh progress
         handleTakeProgress();
@@ -177,7 +179,9 @@ function DoList() {
 
         // Giảm số nhiệm vụ đã hoàn thành xuống 1
         const completed = localGET('completed');
-        localSET('completed', completed - 1);
+        if (completed >= 0) {
+            localSET('completed', completed - 1);
+        }
 
         // Cập nhật thanh trạng thái hoàn thành
         handleTakeProgress();
@@ -218,7 +222,6 @@ function DoList() {
 
         // Cập nhật lại danh sách tất cả mission đã hoàn thành
         const allMissonCompleted = contextMission.allMissonCompleted;
-        console.log('all:' + allMissonCompleted);
         const allMission = localGET('allMission');
         const newAllMission = allMission.filter((item) => item !== allMissonCompleted[allMissonCompleted.length - 1]);
         localSET('allMission', newAllMission);
