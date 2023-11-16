@@ -156,21 +156,24 @@ function DoList() {
 
     // Reset thanh progress
     const handleResetBar = () => {
-        // Lấy dữ liệu trước khi reset
-        const completed = localGET('completed');
-        const total = localGET('total');
+        const length = localGET('listMission').length;
+        if (length === 0) {
+            // Lấy dữ liệu trước khi reset
+            const completed = localGET('completed');
+            const total = localGET('total');
 
-        // Đưa dữ liệu tạm thời vào stack để lưu trữ
-        contextMission.setTotal(total);
-        contextMission.setCompleted(completed);
+            // Đưa dữ liệu tạm thời vào stack để lưu trữ
+            contextMission.setTotal(total);
+            contextMission.setCompleted(completed);
 
-        // Reset the progress bar
-        localSET('completed', 0);
-        localSET('total', 0);
-        handleTakeProgress();
+            // Reset the progress bar
+            localSET('completed', 0);
+            localSET('total', 0);
+            handleTakeProgress();
 
-        // Set stack
-        contextMission.setStack((prev) => [...prev, 'reset-bar']);
+            // Set stack
+            contextMission.setStack((prev) => [...prev, 'reset-bar']);
+        }
     };
 
     // Xử lý back hành động ấn hoàn thành nhiệm vụ
