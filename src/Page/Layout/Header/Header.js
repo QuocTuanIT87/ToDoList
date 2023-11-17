@@ -41,11 +41,6 @@ function Header() {
     // Reset tất cả các giá trị
     const handleResetGift = () => {
         contextMission.setReset(true);
-        localSET('listMission', []);
-        localSET('listMissionDone', []);
-        localSET('allMission', []);
-        localSET('total', 0);
-        localSET('completed', 0);
     };
 
     // Xử lý set theme cho giao diện

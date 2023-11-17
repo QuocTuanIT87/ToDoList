@@ -8,12 +8,26 @@ const cx = classNames.bind(styles);
 function Modal({ title, message }) {
     const contextMission = useContext(missionContext);
 
+    const stringifyJSON = (item) => {
+        return JSON.stringify(item);
+    };
+
+    const localSET = (name, item) => {
+        return localStorage.setItem(name, stringifyJSON(item));
+    };
+
     const handleHideModal = () => {
         contextMission.setReset(false);
     };
 
-    const handleResetGift = () => {
-        localStorage.setItem('bonus', 0);
+    const handleResetAll = () => {
+        localSET('listMission', []);
+        localSET('listMissionDone', []);
+        localSET('allMission', []);
+        localSET('total', 0);
+        localSET('completed', 0);
+        localSET('bonus', 0);
+
         contextMission.updateNow();
         contextMission.setReset(false);
         contextMission.setStack([]);
@@ -30,7 +44,7 @@ function Modal({ title, message }) {
                     <button className={cx('btn', 'cancel')} onClick={handleHideModal}>
                         Cancel
                     </button>
-                    <button className={cx('btn', 'reset')} onClick={handleResetGift}>
+                    <button className={cx('btn', 'reset')} onClick={handleResetAll}>
                         Reset
                     </button>
                 </div>
