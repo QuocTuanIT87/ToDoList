@@ -14,13 +14,13 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    min-height: 48px;
+    max-height: 44px;
     color: #fff;
     font-weight: bold;
     font-size: 24px;
 
     .logo {
-        height: 58px;
+        height: 52px;
         cursor: pointer;
     }
 }
