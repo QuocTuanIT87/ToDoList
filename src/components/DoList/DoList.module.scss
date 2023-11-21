@@ -32,6 +32,19 @@
         display: inline-block;
         margin-left: 8px;
     }
+
+    .seconds-left {
+        font-family: Inter-bold;
+        font-size: 28px;
+        margin-left: 16px;
+        letter-spacing: 2px;
+        min-width: 118px;
+        display: inline-block;
+    }
+
+    .gif-hourglass {
+        height: 21px;
+    }
 }
 
 .cover-input {

@@ -5,6 +5,7 @@ import styles from './DoList.module.scss';
 import { missionContext } from '../MissionProvider/MissionProvider';
 import sound from '../../assets/audio/sound.mp3';
 import Congratulation from '../Congratulation';
+import hourglass from '../../assets/images/output-onlinegiftools.gif';
 
 const cx = classNames.bind(styles);
 
@@ -17,8 +18,28 @@ function DoList() {
     const [mission, setMission] = useState('');
     const [listMission, setListMission] = useState([]);
     const [isDisable, setIsDisable] = useState(false);
+    const [secondsLeft, setSecondsLeft] = useState();
 
     const [progress, setProgress] = useState();
+
+    // Lấy thời gian hiện tại theo từng second
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            // Lấy ngày hiện tại
+            const currentDate = new Date();
+
+            // Đặt thời gian cuối ngày (23:59:59)
+            const endOfDay = new Date(currentDate);
+            endOfDay.setHours(23, 59, 59, 999);
+
+            // Tính số giây còn lại
+            let secondsRemaining = Math.floor((endOfDay - currentDate) / 1000);
+            setSecondsLeft(secondsRemaining--);
+        }, 1000);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
 
     // Đổi kiểu khi lấy dữ liệu từ localStorage
     const praseJSON = (item) => {
@@ -286,6 +307,8 @@ function DoList() {
                     <i className="fa-solid fa-rotate-left"></i>
                 </button>
                 <h2 className={cx('title-do-list')}>Today mission</h2>
+                <span className={cx('seconds-left')}>{secondsLeft}</span>
+                <img alt="hourglass" className={cx('gif-hourglass')} src={hourglass} />
                 <div className={cx('cover-bar')}>
                     <progress value={progress} className={cx('progress-bar')}></progress>
                     <span className={cx('percent-progress')}>{`${Math.round(progress * 100) || 0}%`}</span>
