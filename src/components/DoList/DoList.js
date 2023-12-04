@@ -307,8 +307,8 @@ function DoList() {
                     <i className="fa-solid fa-rotate-left"></i>
                 </button>
                 <h2 className={cx('title-do-list')}>Today mission</h2>
-                <span className={cx('seconds-left')}>{secondsLeft}</span>
-                <img alt="hourglass" className={cx('gif-hourglass')} src={hourglass} />
+                {/* <span className={cx('seconds-left')}>{secondsLeft}</span>
+                <img alt="hourglass" className={cx('gif-hourglass')} src={hourglass} /> */}
                 <div className={cx('cover-bar')}>
                     <progress value={progress} className={cx('progress-bar')}></progress>
                     <span className={cx('percent-progress')}>{`${Math.round(progress * 100) || 0}%`}</span>
