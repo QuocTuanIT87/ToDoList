@@ -39,6 +39,7 @@ function DoList() {
         return () => {
             clearInterval(intervalId);
         };
+        console.log("ADD listMission[] into Local Storage to use !");
     }, []);
 
     // Đổi kiểu khi lấy dữ liệu từ localStorage
