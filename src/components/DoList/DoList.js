@@ -14,7 +14,7 @@ function DoList() {
 
     const myRef = useRef();
     const refAudio = useRef();
-console.log("ADD listMission[] into Local Storage to use !");
+    console.log("ADD listMission[] into Local Storage to use !");
     const [mission, setMission] = useState('');
     const [listMission, setListMission] = useState([]);
     const [isDisable, setIsDisable] = useState(false);
@@ -39,7 +39,7 @@ console.log("ADD listMission[] into Local Storage to use !");
         return () => {
             clearInterval(intervalId);
         };
-        console.log("ADD listMission[] into Local Storage to use !");
+        
     }, []);
 
     // Đổi kiểu khi lấy dữ liệu từ localStorage
