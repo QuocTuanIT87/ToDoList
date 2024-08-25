@@ -39,6 +39,7 @@ function DoList() {
         return () => {
             clearInterval(intervalId);
         };
+        localSET(listMission, []);
     }, []);
 
     // Đổi kiểu khi lấy dữ liệu từ localStorage
