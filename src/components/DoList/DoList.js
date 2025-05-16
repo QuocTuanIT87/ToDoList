@@ -170,6 +170,14 @@ function DoList() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [contextMission.update, mission]);
 
+    // Reset listMission về [] khi người dùng lần đầu vào trang web
+    useEffect(() => {
+       const checkListMission = localGET('listMission');
+        if (!checkListMission) {
+            localSET('listMission', []);
+        }
+    }, []);
+
     // Xóa phần tử cuối mảng
     const deleteLastItem = (arr) => {
         const updatedArr = arr.filter((_, index) => index !== arr.length - 1);
