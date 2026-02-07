@@ -157,6 +157,24 @@ function Header() {
                                 <div className={cx('theme-item', 'gray')} onClick={handleSetTheme}>
                                     gray
                                 </div>
+                                <div className={cx('theme-item', 'blue1')} onClick={handleSetTheme}>
+                                    blue1
+                                </div>
+                                <div className={cx('theme-item', 'blue2')} onClick={handleSetTheme}>
+                                    blue2
+                                </div>
+                                <div className={cx('theme-item', 'blue3')} onClick={handleSetTheme}>
+                                    blue3
+                                </div>
+                                <div className={cx('theme-item', 'blue4')} onClick={handleSetTheme}>
+                                    blue4
+                                </div>
+                                <div className={cx('theme-item', 'blue5')} onClick={handleSetTheme}>
+                                    blue5
+                                </div>
+                                <div className={cx('theme-item', 'blue6')} onClick={handleSetTheme}>
+                                    blue6
+                                </div>
                             </div>
                         </div>
                     </button>

@@ -65,6 +65,54 @@
     --input-text: rgb(76, 76, 76);
 }
 
+[data-theme='blue1'] {
+    --primary-color: #8ae8f1;
+    --color-text: #8ae8f1;
+    --color-modal: var(--primary-color);
+    --color-boder: var(--primary-color);
+    --input-text: #8ae8f1;
+}
+
+[data-theme='blue2'] {
+    --primary-color: #083bff;
+    --color-text: #083bff;
+    --color-modal: var(--primary-color);
+    --color-boder: var(--primary-color);
+    --input-text: #083bff;
+}
+
+[data-theme='blue3'] {
+    --primary-color: #010080;
+    --color-text: #010080;
+    --color-modal: var(--primary-color);
+    --color-boder: var(--primary-color);
+    --input-text: #010080;
+}
+
+[data-theme='blue4'] {
+    --primary-color: #87ceea;
+    --color-text: #87ceea;
+    --color-modal: var(--primary-color);
+    --color-boder: var(--primary-color);
+    --input-text: #87ceea;
+}
+
+[data-theme='blue5'] {
+    --primary-color: #0047ab;
+    --color-text: #0047ab;
+    --color-modal: var(--primary-color);
+    --color-boder: var(--primary-color);
+    --input-text: #0047ab;
+}
+
+[data-theme='blue6'] {
+    --primary-color: #91c4e1;
+    --color-text: #91c4e1;
+    --color-modal: var(--primary-color);
+    --color-boder: var(--primary-color);
+    --input-text: #91c4e1;
+}
+
 [data-mode='darkmode'] {
     background-color: #292929;
     color: #fff;
