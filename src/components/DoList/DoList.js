@@ -5,7 +5,6 @@ import styles from './DoList.module.scss';
 import { missionContext } from '../MissionProvider/MissionProvider';
 import sound from '../../assets/audio/sound.mp3';
 import Congratulation from '../Congratulation';
-import hourglass from '../../assets/images/output-onlinegiftools.gif';
 
 const cx = classNames.bind(styles);
 
@@ -14,11 +13,10 @@ function DoList() {
 
     const myRef = useRef();
     const refAudio = useRef();
-    console.log("ADD listMission[] into Local Storage to use !");
+    console.log('ADD listMission[] into Local Storage to use !');
     const [mission, setMission] = useState('');
     const [listMission, setListMission] = useState([]);
     const [isDisable, setIsDisable] = useState(false);
-    const [secondsLeft, setSecondsLeft] = useState();
 
     const [progress, setProgress] = useState();
 
@@ -33,13 +31,10 @@ function DoList() {
             endOfDay.setHours(23, 59, 59, 999);
 
             // Tính số giây còn lại
-            let secondsRemaining = Math.floor((endOfDay - currentDate) / 1000);
-            setSecondsLeft(secondsRemaining--);
         }, 1000);
         return () => {
             clearInterval(intervalId);
         };
-        
     }, []);
 
     // Đổi kiểu khi lấy dữ liệu từ localStorage
@@ -172,7 +167,7 @@ function DoList() {
 
     // Reset listMission về [] khi người dùng lần đầu vào trang web
     useEffect(() => {
-       const checkListMission = localGET('listMission');
+        const checkListMission = localGET('listMission');
         if (!checkListMission) {
             localSET('listMission', []);
         }
@@ -322,9 +317,10 @@ function DoList() {
                     <progress value={progress} className={cx('progress-bar')}></progress>
                     <span className={cx('percent-progress')}>{`${Math.round(progress * 100) || 0}%`}</span>
 
-                    {localGET('listMission')?.length || 0 === 0 && (
-                        <i className={cx('fa-solid fa-power-off', 'icon-reset-bar')} onClick={handleResetBar}></i>
-                    )}
+                    {localGET('listMission')?.length ||
+                        (0 === 0 && (
+                            <i className={cx('fa-solid fa-power-off', 'icon-reset-bar')} onClick={handleResetBar}></i>
+                        ))}
                 </div>
                 <div className={cx('cover-input')}>
                     <input
