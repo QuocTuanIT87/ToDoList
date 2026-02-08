@@ -318,7 +318,7 @@ function DoList() {
                     <progress value={progress} className={cx('progress-bar')}></progress>
                     <span className={cx('percent-progress')}>{`${Math.round(progress * 100) || 0}%`}</span>
 
-                    {localGET('listMission')?.length && (
+                    {!!localGET('listMission')?.length && (
                         <i className={cx('fa-solid fa-power-off', 'icon-reset-bar')} onClick={handleResetBar}></i>
                     )}
                 </div>
