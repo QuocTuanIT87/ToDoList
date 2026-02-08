@@ -171,7 +171,7 @@ function DoList() {
         if (!checkListMission) {
             localSET('listMission', []);
         }
-    }, []);
+    }, [localGET, localSET]);
 
     // Xóa phần tử cuối mảng
     const deleteLastItem = (arr) => {
