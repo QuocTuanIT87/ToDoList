@@ -171,7 +171,8 @@ function DoList() {
         if (!checkListMission) {
             localSET('listMission', []);
         }
-    }, [localGET, localSET]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // Xóa phần tử cuối mảng
     const deleteLastItem = (arr) => {
